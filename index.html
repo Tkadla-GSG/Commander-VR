@@ -7,18 +7,43 @@
         <img id="floor-texture" src="./assets/floor.png">
     </a-assets>
 
-    <a-scene background="color: #E6E8EB" fog="color: #E6E8EB; far: 50" stats>
+    <!-- scene -->
+    <a-entity camera="active: true" look-controls wasd-controls position="0 1.8 0" data-aframe-default-camera></a-entity>
+    <a-scene background="color: #E6E8EB" fog="color: #E6E8EB; far: 25; near: 10" stats>
 
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#F8B3BE" shadow="cast: true"></a-box>
+    <!-- content -->
 
-      <a-plane
+    <!-- floors -->
+    <a-box height="0.4" width="2" depth="0.4" position="-1 0.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+    <a-box height="0.4" width="2" depth="0.4" position="-1 1 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+    <a-box height="0.4" width="2" depth="0.4" position="-1 1.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+    <a-box height="0.4" width="2" depth="0.4" position="-1 2 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+    <a-box height="0.4" width="2" depth="0.4" position="-1 2.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+
+    <!-- que -->
+    <a-sphere color="#267EFF" radius="0.15" position="1 1 -3" segments-height="5" segments-width="5" shadow="cast: true"></a-sphere>
+    <a-cone color="#267EFF" radius-bottom="0" radius-top="0.2" height="0.5" position="1 0.5 -3" segments-height="1" segments-radial="5" shadow="cast: true"></a-cone>
+
+    <a-sphere color="#267EFF" radius="0.1" position="1.5 0.8 -2.5" segments-height="5" segments-width="5" shadow="cast: true"></a-sphere>
+    <a-cone color="#267EFF" radius-bottom="0" radius-top="0.1" height="0.3" position="1.5 0.5 -2.5" segments-height="1" segments-radial="5" shadow="cast: true"></a-cone>
+
+    <!-- mews logo -->
+
+    <!-- hotel logo -->
+
+
+
+    <!-- <a-box position="1 0.5 -3" rotation="0 -45 0" color="#F8B3BE" shadow="cast: true"></a-box> -->
+
+    <!-- floor -->
+    <a-plane
         position="0 00"
         rotation="-90 0 0"
         width="100"
         height="100"
         color="#FFFFF"
         shadow="receive: true"
-        material="src: #floor-texture; repeat: 100 100"
+        material="src: #floor-texture; repeat: 200 200"
     ></a-plane>
     </a-scene>
   </body>
