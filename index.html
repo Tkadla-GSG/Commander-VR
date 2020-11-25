@@ -35,17 +35,17 @@
             </a-entity>
         </a-camera>
 
-        <a-entity laser-controls="hand: left"></a-entity>
-        <a-entity laser-controls="hand: right"></a-entity>
-        
+        <a-entity laser-controls="hand: left" raycaster="objects: .collidable; far:1.2;"></a-entity>
+        <a-entity laser-controls="hand: right" raycaster="objects: .collidable; far:1.2;"></a-entity>
+
         <!-- content -->
 
         <!-- floors -->
-        <a-box color-cycle height="0.4" width="2" depth="0.4" position="-1 0.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
-        <a-box color-cycle height="0.4" width="2" depth="0.4" position="-1 1 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
-        <a-box color-cycle height="0.4" width="2" depth="0.4" position="-1 1.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
-        <a-box color-cycle height="0.4" width="2" depth="0.4" position="-1 2 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
-        <a-box color-cycle height="0.4" width="2" depth="0.4" position="-1 2.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+        <a-box class="collidable" color-cycle height="0.4" width="2" depth="0.4" position="-1 0.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+        <a-box class="collidable" color-cycle height="0.4" width="2" depth="0.4" position="-1 1 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+        <a-box class="collidable" color-cycle height="0.4" width="2" depth="0.4" position="-1 1.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+        <a-box class="collidable" color-cycle height="0.4" width="2" depth="0.4" position="-1 2 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
+        <a-box class="collidable" color-cycle height="0.4" width="2" depth="0.4" position="-1 2.5 -3" rotation="0 22.5 0" color="#E0EDFF" shadow="cast: true"></a-box>
 
         <!-- que -->
         <a-sphere color="#267EFF" radius="0.15" position="1 1 -3" segments-height="5" segments-width="5" shadow="cast: true"></a-sphere>
