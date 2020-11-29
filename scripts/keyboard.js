@@ -1,4 +1,5 @@
 window.initKeyboard = () => {
+    AFRAME.log("init keyboarf");
     AFRAME.registerComponent('on-input', {
         init: function(){
           this.el.addEventListener('superkeyboardinput', event => {
