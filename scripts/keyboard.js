@@ -2,6 +2,7 @@ window.initKeyboard = () => {
     AFRAME.registerComponent('on-input', {
         init: function(){
           this.el.addEventListener('superkeyboardinput', event => {
+            AFRAME.log(event.value);
             if (window.hasUserName()) {
                 AFRAME.scenes[0].emit('setUserName', { userName: event.value });
                 // reset keyboard
@@ -19,6 +20,10 @@ window.initKeyboard = () => {
                         AFRAME.scenes[0].emit('setPassword', { password: null });
                     });
             }
+          });
+
+          this.el.addEventListener('superkeyboardchange', event => {
+            AFRAME.log(event.value);
           });
         }
     });

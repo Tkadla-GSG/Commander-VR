@@ -4,6 +4,8 @@
     <script src="https://unpkg.com/aframe-super-keyboard@1.0.0/dist/aframe-super-keyboard.min.js"></script>
     <script src="https://unpkg.com/aframe-state-component@7.1.0/dist/aframe-state-component.min.js"></script>
 
+    <script src="https://unpkg.com/aframe-log-component/dist/aframe-log-component.min.js"></script>
+
     <script src="./scripts/api.js"></script>
     <script src="./scripts/state.js"></script>
     <script src="./scripts/keyboard.js"></script>
@@ -84,6 +86,9 @@
             shadow="receive: true"
             material="src: #floor-texture; repeat: 200 200"
         ></a-plane>
+
+        <!-- debug -->
+        <a-entity log geometry="primitive: plane" material="color: #111" text="color: lightgreen" position="0 1.6 -2"></a-entity>
     </a-scene>
   </body>
 </html>
