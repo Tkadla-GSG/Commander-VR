@@ -51,7 +51,11 @@ class VRApp {
       box.position = new Vector3(Math.random() * 50.0 - 25.0, 1, Math.random() * 50.0 - 25.0);
     }
 
-    const vrHelper = this._scene.createDefaultVRExperience();
+    const env = this._scene.createDefaultEnvironment();
+
+    this._scene.createDefaultXRExperienceAsync({
+        floorMeshes: [env.ground]
+    });
   }
 
   run() {
