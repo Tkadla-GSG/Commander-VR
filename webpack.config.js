@@ -1,5 +1,3 @@
-var path = require('path');
-
 module.exports = {
     mode: 'development',
     entry: "./scripts/index.ts",
@@ -19,4 +17,12 @@ module.exports = {
             },
         ],
     },
+    resolve: {
+        modules: [
+            'node_modules',
+        ],
+    },
+    devServer: {
+        publicPath: '/dist',
+    }
 }

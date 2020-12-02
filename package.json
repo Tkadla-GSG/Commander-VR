@@ -12,7 +12,8 @@
     "build": "webpack"
   },
   "dependencies": {
-    "babylonjs": "^4.2.0"
+    "@babylonjs/core": "^4.2.0",
+    "@babylonjs/gui": "^4.2.0"
   },
   "devDependencies": {
     "ts-loader": "^8.0.11",
