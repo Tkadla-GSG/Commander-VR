@@ -1,21 +1,30 @@
-import { Engine, Scene, HemisphericLight, Vector3, Mesh } from '@babylonjs/core';
+import { Engine, EnvironmentHelper, Scene, HemisphericLight, Vector3, Mesh, FreeCamera } from '@babylonjs/core';
 import { InputPassword, InputText, VirtualKeyboard, StackPanel, Control, AdvancedDynamicTexture } from '@babylonjs/gui';
 
 class VRApp {
   private _engine: Engine;
   private _scene: Scene;
   private _logger: HTMLElement;
+  private _environment: EnvironmentHelper;
 
   constructor() {
-    const appDiv = <HTMLCanvasElement>document.getElementById('renderCanvas');
+    const canvas = <HTMLCanvasElement>document.getElementById('renderCanvas');
     this._logger = <HTMLElement>document.getElementById("fps");
-    this._engine = new Engine(appDiv, true);
+    this._engine = new Engine(canvas, true);
     this._scene = new Scene(this._engine);
+    this._environment = this._scene.createDefaultEnvironment({
+        skyboxSize: 50,
+        groundSize: 50,
+        enableGroundMirror: true,
+    });
 
     const light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), this._scene);
-    const ground = Mesh.CreateGround("ground", 50, 50, 2, this._scene);
+    const camera = new FreeCamera("camera", new Vector3(0, 1.6, 0), this._scene);
+    camera.setTarget(new Vector3(25, 0, 0));
+    camera.attachControl(canvas, true);
 
     // GUI
+    /*
     const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
     const panel = new StackPanel();
     
@@ -45,17 +54,15 @@ class VRApp {
     panel.addControl(keyboard);
 
     advancedTexture.addControl(panel);
-
+*/
     for (let i = 0; i < 25; i++) {
       const box = Mesh.CreateBox(`box_${i}`, 2, this._scene);
       box.position = new Vector3(Math.random() * 50.0 - 25.0, 1, Math.random() * 50.0 - 25.0);
     }
 
-    const env = this._scene.createDefaultEnvironment();
-
-    this._scene.createDefaultXRExperienceAsync({
-        floorMeshes: [env.ground]
-    });
+   this._scene.createDefaultXRExperienceAsync({
+    floorMeshes: [this._environment.ground]
+   });
   }
 
   run() {
