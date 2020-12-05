@@ -17,11 +17,6 @@ module.exports = {
             },
         ],
     },
-    resolve: {
-        modules: [
-            'node_modules',
-        ],
-    },
     devServer: {
         publicPath: '/dist',
     }
