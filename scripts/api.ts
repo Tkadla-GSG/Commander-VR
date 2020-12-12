@@ -1,4 +1,14 @@
-export const signIn = ({ identifier, password }) => {
+import { init, run } from './engine';
+
+export const signIn = event => {
+    const loader = document.getElementById('loader');
+    loader.style['display'] = 'flex';
+
+    const formData = new FormData(event.target);
+
+    const identifier = formData.get('identifier');
+    const password = formData.get('password');
+
     const url = 'https://develop.mews.li/api/general/v1/users/signIn';
     const data = {
         Application: 'Commander',
@@ -31,5 +41,14 @@ export const signIn = ({ identifier, password }) => {
         referrerPolicy: 'no-referrer', 
         body: JSON.stringify(data)
     })
-        .then(response => response.json());
+        .then(response => {
+            init();
+
+            // render something based on response.json()
+
+            run();
+
+            document.getElementById('content-2d').style['display'] = 'none';
+        })
+        .finally(() => { loader.style['display'] = 'none'; });
 }

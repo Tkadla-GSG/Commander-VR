@@ -1,9 +1,9 @@
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: "./scripts/index.ts",
-    devtool: 'inline-source-map',
+    devtool: false,
     output: {
-        filename: "commander-vr.js"
+        filename: "commander-vr.js",
     },
     resolve: {
         extensions: [ '.ts', '.js' ],
