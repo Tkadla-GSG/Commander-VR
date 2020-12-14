@@ -1,4 +1,15 @@
-import { Color3, Engine, EnvironmentHelper, Scene, HemisphericLight, Vector3, Mesh, FreeCamera } from '@babylonjs/core';
+import { EnvironmentHelper } from "@babylonjs/core/Helpers/environmentHelper";
+import { Engine } from "@babylonjs/core/Engines/engine";
+import { Scene } from "@babylonjs/core/scene";
+import { Color3, Vector3 } from "@babylonjs/core/Maths/math";
+import { FreeCamera } from "@babylonjs/core/Cameras/freeCamera";
+import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
+
+// Side effect for mesh helpers mesh.createDefaultXXX
+import "@babylonjs/core/Meshes/meshBuilder";
+// Side effect for scene helpers scene.createDefaultXXX
+import "@babylonjs/core/Helpers/sceneHelpers";
 
 let engine: Engine;
 let scene: Scene;
@@ -26,7 +37,7 @@ export const init = () => {
     for (let i = 0; i < 25; i++) {
       const box = Mesh.CreateBox(`box_${i}`, 2, scene);
       box.position = new Vector3(Math.random() * 50.0 - 25.0, 1, Math.random() * 50.0 - 25.0);
-    }
+	}
 
 	scene.createDefaultXRExperienceAsync({
 		floorMeshes: [environment.ground]
