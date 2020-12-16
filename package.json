@@ -12,7 +12,8 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@babylonjs/core": "^4.2.0"
+    "@babylonjs/core": "^4.2.0",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "ts-loader": "^8.0.11",

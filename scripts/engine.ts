@@ -1,3 +1,4 @@
+import { map } from 'lodash/fp';
 import { EnvironmentHelper } from "@babylonjs/core/Helpers/environmentHelper";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import { Scene } from "@babylonjs/core/scene";
@@ -10,6 +11,7 @@ import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import "@babylonjs/core/Meshes/meshBuilder";
 // Side effect for scene helpers scene.createDefaultXXX
 import "@babylonjs/core/Helpers/sceneHelpers";
+import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 
 let engine: Engine;
 let scene: Scene;
@@ -34,14 +36,17 @@ export const init = () => {
     camera.setTarget(new Vector3(25, 0, 0));
     camera.attachControl(canvas, true);
 
-    for (let i = 0; i < 25; i++) {
-      const box = Mesh.CreateBox(`box_${i}`, 2, scene);
-      box.position = new Vector3(Math.random() * 50.0 - 25.0, 1, Math.random() * 50.0 - 25.0);
-	}
-
 	scene.createDefaultXRExperienceAsync({
 		floorMeshes: [environment.ground]
 	});
+}
+
+export const renderFloorPlan = floorNumbers => {
+	let z = 1;
+	map(number => {
+		const box = MeshBuilder.CreateBox(`${number}`, { height: 0.75, width: 10, depth: 0.75 }, scene);
+		box.position = new Vector3(5.0, z++, 5.0);
+	}, floorNumbers);
 }
 
 export const run = () => {

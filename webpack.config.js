@@ -1,5 +1,5 @@
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: "./scripts/index.ts",
     devtool: false,
     output: {

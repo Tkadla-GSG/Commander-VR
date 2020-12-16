@@ -1,4 +1,29 @@
-import { init, run } from './engine';
+import { init, renderFloorPlan, run } from './engine';
+import { setReservationData, setAuthorizationData, setResourceData, getFloorNames, getEnterpriseVisitIds } from './data';
+
+const BASE_API_URL = 'https://develop.mews.li/api';
+
+// TODO account switch
+const enterpriseId = '1c8f20d2-1d30-4103-be57-8f3ed917aa2a'; // Payworks Terminal
+
+const request = (url: string, requestData: { [key: string]: any }) => window.fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'include',
+    headers: {
+        'Access-Control-Request-Headers': 'content-type',
+        'Access-Control-Request-Method': 'POST'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer', 
+    body: JSON.stringify({
+        ...requestData,
+        Application: 'Commander',
+        Client: 'Mews Web Commander VR',
+    })
+})
+.then(response => response.json());
 
 export const signIn = event => {
     const loader = document.getElementById('loader');
@@ -9,9 +34,8 @@ export const signIn = event => {
     const identifier = formData.get('identifier');
     const password = formData.get('password');
 
-    const url = 'https://develop.mews.li/api/general/v1/users/signIn';
-    const data = {
-        Application: 'Commander',
+    const url = `${BASE_API_URL}/general/v1/users/signIn`;
+    const requestData = {
         Extent: {
             Scopes: true,
             Chains: true,
@@ -22,33 +46,68 @@ export const signIn = event => {
         },
         Device: {'System': 'Web'},
         SetCookie: true,
-        Client: 'Mews Web Commander VR',
 
         Identifier: identifier,
         Password: password,
     };
 
-    return window.fetch(url, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'include',
-        headers: {
-            'Access-Control-Request-Headers': 'content-type',
-            'Access-Control-Request-Method': 'POST'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer', 
-        body: JSON.stringify(data)
-    })
+    return request(url, requestData)
         .then(response => {
+            setAuthorizationData(response);
+
             init();
-
-            // render something based on response.json()
-
             run();
 
-            document.getElementById('content-2d').style['display'] = 'none';
+            return Promise.all([
+                fetchReservationData(enterpriseId),
+                fetchResources(enterpriseId),
+            ]).then(() => {
+                document.getElementById('content-2d').style['display'] = 'none';
+                
+                renderFloorPlan(getFloorNames());
+            });
         })
         .finally(() => { loader.style['display'] = 'none'; });
+}
+
+const fetchResources = enterpriseId => {
+    const url = `${BASE_API_URL}/commander/v1/resources/getAll`;
+
+    const requestData = {
+        EnterpriseId: enterpriseId,
+        Extent: {
+            ResourceCategories: true,
+            ResourceCategoryAssignments: true,
+            Resources: true,
+        },
+    };
+
+    return request(url, requestData).then(responce => setResourceData(responce));
+}
+
+const fetchReservationData = enterpriseId => {
+    const url = `${BASE_API_URL}/commander/v1/resourceUses/getAll`;
+    
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    const serviceIds = getEnterpriseVisitIds(enterpriseId);
+
+    const requestData = {
+        EnterpriseId: enterpriseId,
+        // TODO use enterprise timezone
+        CollidingUtc: {
+            StartUtc: today.toISOString(),
+            EndUtc: tomorrow.toISOString(),
+        },
+        Extent: {
+            Customers: true,
+            Reservations: true
+        },
+        State: 'Definite',
+        ServiceIds: serviceIds,
+    };
+
+    return request(url, requestData).then(responce => setReservationData(responce));
 }
