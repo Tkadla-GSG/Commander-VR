@@ -1,4 +1,4 @@
-import { init, renderFloorPlan, run } from './engine';
+import { init, renderFloorPlan, renderReservationQue, run } from './engine';
 import { setReservationData, setAuthorizationData, setResourceData, getFloorNames, getEnterpriseVisitIds } from './data';
 
 const BASE_API_URL = 'https://develop.mews.li/api';
@@ -65,6 +65,7 @@ export const signIn = event => {
                 document.getElementById('content-2d').style['display'] = 'none';
                 
                 renderFloorPlan(getFloorNames());
+                renderReservationQue();
             });
         })
         .finally(() => { loader.style['display'] = 'none'; });

@@ -1,11 +1,11 @@
-import { map } from 'lodash/fp';
+import { map, each, times, identity } from 'lodash/fp';
 import { EnvironmentHelper } from "@babylonjs/core/Helpers/environmentHelper";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import { Scene } from "@babylonjs/core/scene";
 import { Color3, Vector3 } from "@babylonjs/core/Maths/math";
 import { FreeCamera } from "@babylonjs/core/Cameras/freeCamera";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
-import { Mesh } from "@babylonjs/core/Meshes/mesh";
+import { getArrivingReservationIds, getDepartingReservationIds, getReservationAdultCount, getReservationChildCount } from './data';
 
 // Side effect for mesh helpers mesh.createDefaultXXX
 import "@babylonjs/core/Meshes/meshBuilder";
@@ -47,6 +47,42 @@ export const renderFloorPlan = floorNumbers => {
 		const box = MeshBuilder.CreateBox(`${number}`, { height: 0.75, width: 10, depth: 0.75 }, scene);
 		box.position = new Vector3(5.0, z++, 5.0);
 	}, floorNumbers);
+}
+
+export const renderReservationQue = () => {
+	const sortedArrivalReservationIds = getArrivingReservationIds();
+	const sortedDepartureReservationIds = getDepartingReservationIds();
+
+	renderQue(sortedArrivalReservationIds, new Vector3(1.0, 0.5, 1.0));
+	// TODO renderQue(sortedDepartureReservationIds, new Vector3(1.0, 0.5, 1.0), -1);
+}
+
+const renderQue = (reservationIds, position: Vector3, direction = 1) => {
+	let x = 1;
+	each(id => {
+		renderReservation(id, position.clone().add(new Vector3(x + (direction * 0.5), 0, 0)));
+		x++;
+	}, reservationIds);
+}
+
+const renderReservation = (id, position: Vector3) => {
+	const adultCount = getReservationAdultCount(id);
+	const childCount = getReservationChildCount(id);
+
+	let y = 1;
+	each(child => {
+		console.log({ child });
+		const box = MeshBuilder.CreateBox(`child-${child}`, { height: 0.4, width: 0.4, depth: 0.4 }, scene);
+		box.position = position.clone().add(new Vector3(0, 0, y + 0.5));
+		y++;
+	}, times(identity, childCount));
+
+	each(adult => {
+		console.log({ adult });
+		const box = MeshBuilder.CreateBox(`adult-${adult}`, { height: 0.75, width: 0.75, depth: 0.75 }, scene);
+		box.position = position.clone().add(new Vector3(0, 0, y + 0.5));
+		y++;
+	}, times(identity, adultCount));
 }
 
 export const run = () => {
